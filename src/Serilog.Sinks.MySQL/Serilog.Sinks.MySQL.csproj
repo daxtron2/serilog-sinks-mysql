@@ -13,7 +13,7 @@
         <RepositoryType>git</RepositoryType>
         <Copyright>Copyright © Zethian Inc. 2013-2019</Copyright>
         <AssemblyVersion>4.5.0.0</AssemblyVersion>
-        <Version>4.5.0</Version>
+        <Version>4.6.1</Version>
         <SignAssembly>True</SignAssembly>
         <AssemblyOriginatorKeyFile>Serilog.snk</AssemblyOriginatorKeyFile>
         <TargetFrameworks>net472</TargetFrameworks>

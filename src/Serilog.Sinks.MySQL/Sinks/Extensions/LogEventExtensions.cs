@@ -1,11 +1,11 @@
 ﻿// Copyright 2019 Zethian Inc.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -71,7 +71,7 @@ namespace Serilog.Sinks.Extensions
                     : logEvent.Timestamp.ToString("o"));
 
             eventObject.Add("LogLevel", logEvent.Level.ToString());
-            eventObject.Add("LogUsername", logEvent.Properties["Username"].ToString());
+            eventObject.Add("LogUsername", logEvent.Properties["UserName"].ToString());
             eventObject.Add("LogMessage", logEvent.RenderMessage(formatProvider));
             eventObject.Add("LogException", logEvent.Exception);
             eventObject.Add("LogProperties", logEvent.Properties.Dictionary());
@@ -88,7 +88,8 @@ namespace Serilog.Sinks.Extensions
 
             // ReSharper disable once SuspiciousTypeConversion.Global
             var dictValue = data as IReadOnlyDictionary<string, LogEventPropertyValue>;
-            if (dictValue != null) {
+            if (dictValue != null)
+            {
                 var expObject = new ExpandoObject() as IDictionary<string, object>;
                 foreach (var item in dictValue.Keys)
                     expObject.Add(item, Simplify(dictValue[item]));
@@ -107,7 +108,8 @@ namespace Serilog.Sinks.Extensions
                 return null;
 
             {
-                try {
+                try
+                {
                     if (str.TypeTag == null)
                         return str.Properties.ToDictionary(p => p.Name, p => Simplify(p.Value));
 
@@ -124,7 +126,8 @@ namespace Serilog.Sinks.Extensions
 
                     return expObject;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     Console.WriteLine(ex.Message);
                 }
             }
@@ -132,6 +135,6 @@ namespace Serilog.Sinks.Extensions
             return null;
         }
 
-        #endregion
+        #endregion Private implementation
     }
 }
