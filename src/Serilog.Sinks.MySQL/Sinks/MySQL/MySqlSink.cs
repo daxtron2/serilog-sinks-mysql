@@ -70,14 +70,15 @@ namespace Serilog.Sinks.MySQL
         {
             var tableCommandBuilder = new StringBuilder();
             tableCommandBuilder.Append($"INSERT INTO  {_tableName} (");
-            tableCommandBuilder.Append("Timestamp, Level, Template, Message, Exception, Properties) ");
-            tableCommandBuilder.Append("VALUES (@ts, @level,@template, @msg, @ex, @prop)");
+            tableCommandBuilder.Append("Timestamp, Level, Username, Template, Message, Exception, Properties) ");
+            tableCommandBuilder.Append("VALUES (@ts, @level, @username, @template, @msg, @ex, @prop)");
 
             var cmd = sqlConnection.CreateCommand();
             cmd.CommandText = tableCommandBuilder.ToString();
 
             cmd.Parameters.Add(new MySqlParameter("@ts", MySqlDbType.VarChar));
             cmd.Parameters.Add(new MySqlParameter("@level", MySqlDbType.VarChar));
+            cmd.Parameters.Add(new MySqlParameter("@username", MySqlDbType.VarChar));
             cmd.Parameters.Add(new MySqlParameter("@template", MySqlDbType.VarChar));
             cmd.Parameters.Add(new MySqlParameter("@msg", MySqlDbType.VarChar));
             cmd.Parameters.Add(new MySqlParameter("@ex", MySqlDbType.VarChar));
@@ -94,6 +95,7 @@ namespace Serilog.Sinks.MySQL
                 tableCommandBuilder.Append("id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,");
                 tableCommandBuilder.Append("Timestamp VARCHAR(100),");
                 tableCommandBuilder.Append("Level VARCHAR(15),");
+                tableCommandBuilder.Append("Username TEXT,");
                 tableCommandBuilder.Append("Template TEXT,");
                 tableCommandBuilder.Append("Message TEXT,");
                 tableCommandBuilder.Append("Exception TEXT,");
@@ -126,6 +128,7 @@ namespace Serilog.Sinks.MySQL
                                 : logEvent.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fffzzz");
 
                             insertCommand.Parameters["@level"].Value     = logEvent.Level.ToString();
+                            insertCommand.Parameters["@username"].Value = logEvent.Properties["Username"].ToString();
                             insertCommand.Parameters["@template"].Value = logEvent.MessageTemplate.ToString();
                             insertCommand.Parameters["@msg"].Value      = logMessageString;
                             insertCommand.Parameters["@ex"].Value       = logEvent.Exception?.ToString();

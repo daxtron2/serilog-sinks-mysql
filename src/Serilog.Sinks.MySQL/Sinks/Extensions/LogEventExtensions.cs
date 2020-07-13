@@ -71,6 +71,7 @@ namespace Serilog.Sinks.Extensions
                     : logEvent.Timestamp.ToString("o"));
 
             eventObject.Add("LogLevel", logEvent.Level.ToString());
+            eventObject.Add("LogUsername", logEvent.Properties["Username"].ToString());
             eventObject.Add("LogMessage", logEvent.RenderMessage(formatProvider));
             eventObject.Add("LogException", logEvent.Exception);
             eventObject.Add("LogProperties", logEvent.Properties.Dictionary());
